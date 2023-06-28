@@ -1,13 +1,38 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* spotify colors */
+/* #1db954, */
+/* #1ed760, */
+/* #ffffff, */
+/* #191414 */
+
+@import url('bootstrap');
+
+.themed-navbar {
+    background: #191414;
+    color: #1db954;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.themed-button {
+    background: #191414;
+    color: #1db954;
+}
+
+.themed-button:hover {
+    /* transition-delay: 3s; */
+    background: #1db954;
+    color: #191414;
+}
+
+.no-right-radius {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.no-left-radius {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+#dl-badge {
+    background: #1db954;
+    color: #fff
 }

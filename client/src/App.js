@@ -161,6 +161,7 @@ const App = () => {
             ) : (
               <div className="mb-5">
                 <img
+                  alt=""
                   src="assets/images/1.png"
                   className="mx-auto d-block w-25"
                 />

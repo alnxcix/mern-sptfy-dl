@@ -56,6 +56,7 @@ const Track = ({ track, index, tracks, setTracks }) => {
     >
       <div className="flex-shrink-0">
         <img
+          alt=""
           src={track.cover_url}
           className="rounded-3"
           style={{ width: "75px" }}

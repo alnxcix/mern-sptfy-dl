@@ -17,7 +17,6 @@
 }
 
 .themed-button:hover {
-    /* transition-delay: 3s; */
     background: #1db954;
     color: #191414;
 }

@@ -6,18 +6,27 @@
 // release_date: string
 // trackUrl: string
 
-import { download } from "../../api/spotifyApi";
+import { useState } from "react";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { download } from "../../api/spotifyApi";
 
 const Track = ({ track, index, tracks, setTracks }) => {
+  // states
+  const [isProcessing, setIsProcessing] = useState(false);
+
   const handleDownload = async () => {
-    toast.info("Proccessing your track. Please wait...");
+    setIsProcessing(true);
+    toast.info("Processing track. Please wait...");
     try {
       saveBlobAsAudioFormat(await download({ trackUrl: track.trackUrl }));
       toast.success("Download started.");
     } catch (err) {
       console.log("[ERROR]", err);
       toast.error("An error occurred.");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -63,15 +72,25 @@ const Track = ({ track, index, tracks, setTracks }) => {
         type="button"
         className="btn themed-button rounded-pill"
         onClick={handleDownload}
+        disabled={isProcessing}
       >
-        Download
+        {isProcessing ? (
+          <div
+            className="spinner-border spinner-border-sm mx-3"
+            role="status"
+          />
+        ) : (
+          <>
+            <FontAwesomeIcon icon={faDownload} /> Download
+          </>
+        )}
       </button>
       <button
         type="button"
         className="btn themed-button rounded-pill ms-1"
         onClick={handleDelete}
       >
-        Delete
+        <FontAwesomeIcon icon={faTrash} /> Delete
       </button>
     </div>
   );

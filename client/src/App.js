@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { getTrack } from "./api/spotifyApi";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileExport,
+  faFileImport,
+  faMagnifyingGlass,
+} from "@fortawesome/free-solid-svg-icons";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Track from "./components/dynamic/Track";
@@ -11,13 +17,15 @@ const App = () => {
     "https://open.spotify.com/track/5jQI2r1RdgtuT8S3iG8zFC?si=96a496cbf1ba4b4b"
   );
   const [tracks, setTracks] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (tracks.find((track) => track.trackUrl === trackUrl)) {
       toast.error("You already added this track.");
     } else {
-      toast.info("Finding track.");
+      setIsSearching(true);
+      toast.info("Finding track...");
       try {
         let data = await getTrack({ trackUrl: trackUrl });
         setTracks([...tracks, { ...data, trackUrl: trackUrl }]);
@@ -25,6 +33,8 @@ const App = () => {
       } catch (err) {
         console.log("[ERROR]", err);
         toast.error("An error occurred.");
+      } finally {
+        setIsSearching(false);
       }
     }
   };
@@ -56,15 +66,13 @@ const App = () => {
                   trackUrl.isEmpty ? handleHasIncompleteFields : handleSubmit
                 }
               >
-                <h6 className="mb-3">
-                  Provide a link to a Spotify track here:
-                </h6>
+                <h6 className="mb-3">Link to a Spotify track:</h6>
                 <div className="d-flex justify-content-between">
                   <div className="flex-grow-1">
                     <input
                       type="text"
                       className="form-control rounded-pill no-right-radius"
-                      placeholder="Paste link to a Spotify track here..."
+                      placeholder="https://open.spotify.com/track/your-link-here"
                       value={trackUrl}
                       onChange={(e) => setTrackUrl(e.target.value)}
                       required
@@ -74,8 +82,19 @@ const App = () => {
                     <button
                       type="submit"
                       className="btn rounded-pill themed-button no-left-radius"
+                      disabled={isSearching}
                     >
-                      Find track
+                      {isSearching ? (
+                        <div
+                          className="spinner-border spinner-border-sm mx-3"
+                          role="status"
+                        />
+                      ) : (
+                        <>
+                          <FontAwesomeIcon icon={faMagnifyingGlass} /> Find
+                          track
+                        </>
+                      )}
                     </button>
                   </div>
                 </div>
@@ -106,7 +125,7 @@ const App = () => {
                   )}`}
                   download="saved-tracks.json"
                 >
-                  Export
+                  <FontAwesomeIcon icon={faFileExport} /> Export
                 </a>
               )}
 
@@ -116,7 +135,7 @@ const App = () => {
                 className="btn rounded-pill themed-button ms-1"
                 type="button"
               >
-                Import
+                <FontAwesomeIcon icon={faFileImport} /> Import
               </label>
 
               <input
@@ -127,16 +146,29 @@ const App = () => {
               />
             </div>
 
-            <hr />
-
-            {tracks?.map((track, index) => (
-              <Track
-                track={track}
-                index={index}
-                tracks={tracks}
-                setTracks={setTracks}
-              />
-            ))}
+            {tracks.length >= 1 ? (
+              <>
+                <hr />
+                {tracks?.map((track, index) => (
+                  <Track
+                    track={track}
+                    index={index}
+                    tracks={tracks}
+                    setTracks={setTracks}
+                  />
+                ))}
+              </>
+            ) : (
+              <div className="mb-5">
+                <img
+                  src="assets/images/1.png"
+                  className="mx-auto d-block w-25"
+                />
+                <p class="lead text-center text-secondary">
+                  You haven't saved any tracks yet.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

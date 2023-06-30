@@ -9,12 +9,21 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faTrash,
+  faEllipsisVertical,
+} from "@fortawesome/free-solid-svg-icons";
 import { download } from "../../api/spotifyApi";
+import moment from "moment";
 
 const Track = ({ track, index, tracks, setTracks }) => {
   // states
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const parseDate = (dateString, targetFormat) => {
+    return moment(dateString, "YYYY-MM-DD").format(targetFormat);
+  };
 
   const handleDownload = async () => {
     setIsProcessing(true);
@@ -66,33 +75,43 @@ const Track = ({ track, index, tracks, setTracks }) => {
         <div className="fw-bold">{track.name}</div>
         <div className="fw-light">
           by {track?.artists?.join(", ")},{" "}
-          <span className="fw-lighter">{track.release_date}</span>
+          <span className="fw-lighter">
+            {parseDate(track.release_date, "LL")}
+          </span>
         </div>
       </div>
-      <button
-        type="button"
-        className="btn themed-button rounded-pill"
-        onClick={handleDownload}
-        disabled={isProcessing}
-      >
-        {isProcessing ? (
-          <div
-            className="spinner-border spinner-border-sm mx-3"
-            role="status"
-          />
-        ) : (
-          <>
-            <FontAwesomeIcon icon={faDownload} /> Download
-          </>
-        )}
-      </button>
-      <button
-        type="button"
-        className="btn themed-button rounded-pill ms-1"
-        onClick={handleDelete}
-      >
-        <FontAwesomeIcon icon={faTrash} /> Delete
-      </button>
+
+      <div class="dropdown">
+        <button class="btn border-0" type="button" data-bs-toggle="dropdown">
+          <FontAwesomeIcon icon={faEllipsisVertical} />
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <button
+              type="button"
+              class="dropdown-item"
+              onClick={handleDownload}
+              disabled={isProcessing}
+            >
+              {isProcessing ? (
+                <div
+                  className="spinner-border spinner-border-sm"
+                  role="status"
+                />
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faDownload} /> Download
+                </>
+              )}
+            </button>
+          </li>
+          <li>
+            <button type="button" class="dropdown-item" onClick={handleDelete}>
+              <FontAwesomeIcon icon={faTrash} /> Delete
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 };

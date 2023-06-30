@@ -109,25 +109,25 @@ const App = () => {
             <div className="align-items-center d-flex">
               <div className="flex-grow-1">
                 <h6>
-                  Saved tracks{" "}
                   <span className="badge" id="dl-badge">
                     {tracks.length}
-                  </span>
+                  </span>{" "}
+                  Saved tracks
                 </h6>
               </div>
 
-              {tracks.length >= 1 && (
-                <a
-                  className="btn rounded-pill themed-button"
-                  type="button"
-                  href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                    JSON.stringify(tracks)
-                  )}`}
-                  download="saved-tracks.json"
-                >
-                  <FontAwesomeIcon icon={faFileExport} /> Export
-                </a>
-              )}
+              <a
+                className={`btn rounded-pill themed-button ${
+                  tracks < 1 && "disabled"
+                }`}
+                type="button"
+                href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                  JSON.stringify(tracks)
+                )}`}
+                download="saved-tracks.json"
+              >
+                <FontAwesomeIcon icon={faFileExport} /> Export list
+              </a>
 
               <label
                 for="import-input"
@@ -135,15 +135,14 @@ const App = () => {
                 className="btn rounded-pill themed-button ms-1"
                 type="button"
               >
-                <FontAwesomeIcon icon={faFileImport} /> Import
+                <FontAwesomeIcon icon={faFileImport} /> Import list
+                <input
+                  id="import-input"
+                  className="d-none"
+                  type="file"
+                  onChange={handleImport}
+                />
               </label>
-
-              <input
-                id="import-input"
-                className="d-none"
-                type="file"
-                onChange={handleImport}
-              />
             </div>
 
             {tracks.length >= 1 ? (

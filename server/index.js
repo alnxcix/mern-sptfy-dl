@@ -32,8 +32,11 @@ app.get("/api/download", async (req, res) => {
 
 // cron
 // reference: https://crontab.guru/
-cron.schedule("0 6 * * *", () => {
-  console.log(findRemoveSync(process.cwd(), { extensions: [".mp3"] }));
+cron.schedule("* * * * *", () => {
+  console.log(
+    "Removed Files ➡️",
+    findRemoveSync(process.cwd(), { extensions: [".mp3"] })
+  );
 });
 
 app.listen(PORT, (error) => {

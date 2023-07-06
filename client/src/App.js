@@ -81,20 +81,27 @@ const App = () => {
                   <div>
                     <button
                       type="submit"
-                      className="btn rounded-pill themed-button no-left-radius"
+                      className={`btn rounded-pill themed-button no-left-radius ${
+                        isSearching && "btn-secondary"
+                      }`}
                       disabled={isSearching}
                     >
-                      {isSearching ? (
-                        <div
-                          className="spinner-border spinner-border-sm mx-3"
-                          role="status"
-                        />
-                      ) : (
-                        <>
-                          <FontAwesomeIcon icon={faMagnifyingGlass} /> Find
-                          track
-                        </>
-                      )}
+                      <>
+                        {isSearching ? (
+                          <>
+                            <div
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                            />{" "}
+                            Finding...
+                          </>
+                        ) : (
+                          <>
+                            <FontAwesomeIcon icon={faMagnifyingGlass} /> Find
+                            track
+                          </>
+                        )}
+                      </>
                     </button>
                   </div>
                 </div>
@@ -118,7 +125,7 @@ const App = () => {
 
               <a
                 className={`btn rounded-pill themed-button ${
-                  tracks < 1 && "disabled"
+                  tracks < 1 && "btn-secondary disabled"
                 }`}
                 type="button"
                 href={`data:text/json;charset=utf-8,${encodeURIComponent(
@@ -164,7 +171,7 @@ const App = () => {
                   src="assets/images/1.png"
                   className="mx-auto d-block w-25"
                 />
-                <p class="lead text-center text-secondary">
+                <p className="lead text-center text-secondary">
                   You haven't saved any tracks yet.
                 </p>
               </div>

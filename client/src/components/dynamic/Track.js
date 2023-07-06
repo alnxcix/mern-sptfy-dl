@@ -73,31 +73,38 @@ const Track = ({ track, index, tracks, setTracks }) => {
       </div>
       <div className="flex-grow-1 ms-3">
         <div className="fw-bold">{track.name}</div>
-        <div className="fw-light">
+        <small className="fw-light">
           by {track?.artists?.join(", ")},{" "}
           <span className="fw-lighter">
             {parseDate(track.release_date, "LL")}
           </span>
-        </div>
+        </small>
       </div>
 
-      <div class="dropdown">
-        <button class="btn border-0" type="button" data-bs-toggle="dropdown">
+      <div className="dropdown">
+        <button
+          className="btn border-0"
+          type="button"
+          data-bs-toggle="dropdown"
+        >
           <FontAwesomeIcon icon={faEllipsisVertical} />
         </button>
-        <ul class="dropdown-menu">
+        <ul className="dropdown-menu">
           <li>
             <button
               type="button"
-              class="dropdown-item"
+              className="dropdown-item"
               onClick={handleDownload}
               disabled={isProcessing}
             >
               {isProcessing ? (
-                <div
-                  className="spinner-border spinner-border-sm"
-                  role="status"
-                />
+                <>
+                  <div
+                    className="spinner-border spinner-border-sm"
+                    role="status"
+                  />{" "}
+                  Downloading...
+                </>
               ) : (
                 <>
                   <FontAwesomeIcon icon={faDownload} /> Download
@@ -106,7 +113,11 @@ const Track = ({ track, index, tracks, setTracks }) => {
             </button>
           </li>
           <li>
-            <button type="button" class="dropdown-item" onClick={handleDelete}>
+            <button
+              type="button"
+              className="dropdown-item"
+              onClick={handleDelete}
+            >
               <FontAwesomeIcon icon={faTrash} /> Delete
             </button>
           </li>

@@ -82,11 +82,7 @@ const Track = ({ track, index, tracks, setTracks }) => {
       </div>
 
       <div className="dropdown">
-        <button
-          className="btn border-0"
-          type="button"
-          data-bs-toggle="dropdown"
-        >
+        <button className="btn border-0" data-bs-toggle="dropdown">
           <FontAwesomeIcon icon={faEllipsisVertical} />
         </button>
         <ul className="dropdown-menu">

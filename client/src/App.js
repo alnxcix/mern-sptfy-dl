@@ -6,6 +6,8 @@ import {
   faFileExport,
   faFileImport,
   faMagnifyingGlass,
+  faBroom,
+  faEllipsisVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -52,6 +54,10 @@ const App = () => {
     };
   };
 
+  const handleClear = () => {
+    setTracks([]);
+  };
+
   return (
     <div className="d-flex flex-column" style={{ minHeight: "100vh" }}>
       <ToastContainer />
@@ -82,9 +88,9 @@ const App = () => {
                     <button
                       type="submit"
                       className={`btn rounded-pill themed-button no-left-radius ${
-                        isSearching && "btn-secondary"
+                        (trackUrl.length < 1 || isSearching) && "btn-secondary"
                       }`}
-                      disabled={isSearching}
+                      disabled={trackUrl.length < 1 || isSearching}
                     >
                       <>
                         {isSearching ? (
@@ -123,33 +129,43 @@ const App = () => {
                 </h6>
               </div>
 
-              <a
-                className={`btn rounded-pill themed-button ${
-                  tracks < 1 && "btn-secondary disabled"
-                }`}
-                type="button"
-                href={`data:text/json;charset=utf-8,${encodeURIComponent(
-                  JSON.stringify(tracks)
-                )}`}
-                download="saved-tracks.json"
-              >
-                <FontAwesomeIcon icon={faFileExport} /> Export list
-              </a>
-
-              <label
-                for="import-input"
-                role="button"
-                className="btn rounded-pill themed-button ms-1"
-                type="button"
-              >
-                <FontAwesomeIcon icon={faFileImport} /> Import list
-                <input
-                  id="import-input"
-                  className="d-none"
-                  type="file"
-                  onChange={handleImport}
-                />
-              </label>
+              <div className="dropdown">
+                <button className="btn border-0" data-bs-toggle="dropdown">
+                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <button
+                      className={`dropdown-item ${tracks < 1 && "disabled"}`}
+                      onClick={handleClear}
+                    >
+                      <FontAwesomeIcon icon={faBroom} /> Clear all
+                    </button>
+                  </li>
+                  <li>
+                    <a
+                      className={`dropdown-item ${tracks < 1 && "disabled"}`}
+                      href={`data:text/json;charset=utf-8,${encodeURIComponent(
+                        JSON.stringify(tracks)
+                      )}`}
+                      download="saved-tracks.json"
+                    >
+                      <FontAwesomeIcon icon={faFileExport} /> Export list
+                    </a>
+                  </li>
+                  <li>
+                    <label for="import-input" className="dropdown-item">
+                      <FontAwesomeIcon icon={faFileImport} /> Import list
+                      <input
+                        id="import-input"
+                        className="d-none"
+                        type="file"
+                        onChange={handleImport}
+                      />
+                    </label>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {tracks.length >= 1 ? (
